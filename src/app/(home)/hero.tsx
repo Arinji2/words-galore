@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+import Dev, { DevFallback } from "./dev";
 const VERSION = "15.0.2-canary.6";
 
 export default function Hero() {
@@ -29,6 +31,10 @@ export default function Hero() {
           </CardHeader>
         </Card>
       </Link>
+
+      <Suspense fallback={<DevFallback />}>
+        <Dev />
+      </Suspense>
 
       <div className="w-full h-fit grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-10">
         <Card className="flex flex-col gap-2 shrink-0">
@@ -89,9 +95,9 @@ export default function Hero() {
             fill
             sizes="(min-width: 1280px) min(33vw, 1280px), 100vw"
             priority
-            quality={80}
+            quality={100}
             alt="Sense Or Nonsense"
-            className="w-full h-full object-cover md:object-[50%_90%] object-bottom absolute top-0 left-0"
+            className="w-full h-full object-cover md:object-[50%_90%] object-left-bottom absolute top-0 left-0"
           />
           <div className="opacity-0 bg-card w-full h-full hover:opacity-100 flex flex-col items-start justify-end transition-all ease-in-out duration-500 z-10">
             <CardHeader className="space-y-0 pb-0">

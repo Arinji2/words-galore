@@ -1,3 +1,9 @@
+import {
+  DevGithubURL,
+  DevIndicator,
+  DevRevalidateIndicator,
+} from "@/components/dev-ui";
+import CustomErrorBoundary from "@/components/error-boundary";
 import { H2 } from "@/components/typography/h2";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,27 +11,41 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getRandomIDs, getRandomWord } from "@/dal/getWords";
 import { upperCaseTransform } from "@/lib/formatting";
 import { ChevronRight } from "lucide-react";
-import { unstable_cacheLife as cacheLife } from "next/cache";
+import {
+  unstable_cacheLife as cacheLife,
+  unstable_cacheTag as cacheTag,
+} from "next/cache";
 import Link from "next/link";
 import { Suspense } from "react";
 
 export async function RandomWords({ isReal }: { isReal: boolean }) {
-  "use cache";
-  const wordIds = await getRandomIDs({ count: 3, isReal: isReal });
-  cacheLife("hours");
-
   return (
     <div className="w-full h-[200px] flex flex-col items-start justify-start gap-4">
-      <H2>{isReal ? "Real" : "Fake"} Words</H2>
+      <div className="w-fit h-fit flex flex-col items-baseline justify-start gap-4">
+        <H2 className="relative">{isReal ? "Real" : "Fake"} Words </H2>
+        <div className="w-full h-full flex flex-row justify-start gap-4 items-baseline">
+          <DevIndicator
+            info={
+              <span>
+                This component has its{" "}
+                <span className="font-bold">{`"Cache Profile"`}</span> set to{" "}
+                {`"hours"`}
+              </span>
+            }
+          />
+          <DevRevalidateIndicator
+            cacheKey={`random-words-${isReal ? "real" : "fake"}`}
+          />
+          <DevGithubURL url="https://github.com/arinji/words-galore/blob/main/src/pages/random-words.tsx" />
+        </div>
+      </div>
 
       <div className="w-full h-fit  flex row items-center justify-start gap-4">
-        <div className="w-full h-fit flex flex-row items-center justify-start gap-4 overflow-x-auto py-3">
-          {wordIds.map((id) => (
-            <Suspense key={id} fallback={<WordSkeletonCard />}>
-              <WordCard id={id} isReal={isReal} />
-            </Suspense>
-          ))}
-        </div>
+        <Suspense fallback={<RandomWordsSkeleton />}>
+          <CustomErrorBoundary fallback={<RandomWordsError isReal={isReal} />}>
+            <RandomWordsDynamic isReal={isReal} />
+          </CustomErrorBoundary>
+        </Suspense>
         <Link href={`/${isReal ? "real" : "fake"}-words`}>
           <Button className="h-fit w-fit rounded-full aspect-square shrink-0 p-2 flex flex-col items-center justify-center">
             <ChevronRight className="w-[30px] h-[30px] ml-1" />
@@ -35,23 +55,29 @@ export async function RandomWords({ isReal }: { isReal: boolean }) {
     </div>
   );
 }
-
-export function RandomWordsSkeleton({ isReal }: { isReal: boolean }) {
+async function RandomWordsDynamic({ isReal }: { isReal: boolean }) {
+  "use cache";
+  const wordIds = await getRandomIDs({ count: 3, isReal: isReal });
+  cacheLife("hours");
+  cacheTag(`random-words-${isReal ? "real" : "fake"}`);
   return (
-    <div className="w-full h-[200px] flex flex-col items-start justify-start gap-4">
-      <H2>{isReal ? "Real" : "Fake"} Words</H2>
+    <div className="w-full h-fit flex flex-row items-center justify-start gap-4 overflow-x-auto py-3">
+      {wordIds.map((id) => (
+        <Suspense key={id} fallback={<WordSkeletonCard />}>
+          <WordCard id={id} isReal={isReal} />
+        </Suspense>
+      ))}
+    </div>
+  );
+}
 
-      <div className="w-full h-fit  flex row items-center justify-start gap-4">
-        <div className="w-full h-fit flex flex-row items-center justify-start gap-4 overflow-x-auto py-3">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <WordSkeletonCard key={i} />
-          ))}
-        </div>
-        <Link href={`/${isReal ? "real" : "fake"}-words`}>
-          <Button className="h-fit w-fit rounded-full aspect-square shrink-0 p-2 flex flex-col items-center justify-center">
-            <ChevronRight className="w-[30px] h-[30px] ml-1" />
-          </Button>
-        </Link>
+export function RandomWordsSkeleton() {
+  return (
+    <div className="w-full h-fit  flex row items-center justify-start gap-4">
+      <div className="w-full h-fit flex flex-row items-center justify-start gap-4 overflow-x-auto py-3">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <WordSkeletonCard key={i} />
+        ))}
       </div>
     </div>
   );

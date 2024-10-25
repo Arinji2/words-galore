@@ -24,7 +24,7 @@ export default function RootLayout({
       <body
         className={`${nonoSans.className} antialiased dark w-full h-full flex flex-col items-center justify-center`}
       >
-        <div className="max-w-fullPage w-full h-full flex flex-col items-center justify-start gap-6 px-2 md:px-0">
+        <div className="max-w-fullPage w-full h-full flex flex-col items-center justify-start gap-6 px-4 md:px-0">
           {children}
         </div>
       </body>
