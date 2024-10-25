@@ -8,6 +8,7 @@ import { H2 } from "@/components/typography/h2";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { GITHUB_URLS } from "@/CONSTANTS/github-urls";
 import { getRandomIDs, getRandomWord } from "@/dal/getWords";
 import { upperCaseTransform } from "@/lib/formatting";
 import { ChevronRight } from "lucide-react";
@@ -36,7 +37,7 @@ export async function RandomWords({ isReal }: { isReal: boolean }) {
           <DevRevalidateIndicator
             cacheKey={`random-words-${isReal ? "real" : "fake"}`}
           />
-          <DevGithubURL url="https://github.com/arinji/words-galore/blob/main/src/pages/random-words.tsx" />
+          <DevGithubURL url={GITHUB_URLS.random_words} />
         </div>
       </div>
 
