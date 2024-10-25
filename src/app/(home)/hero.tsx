@@ -87,7 +87,10 @@ export default function Hero() {
           <Image
             src={"/sense.png"}
             fill
-            alt="sense"
+            sizes="(min-width: 1280px) min(33vw, 1280px), 100vw"
+            priority
+            quality={80}
+            alt="Sense Or Nonsense"
             className="w-full h-full object-cover md:object-[50%_90%] object-bottom absolute top-0 left-0"
           />
           <div className="opacity-0 bg-card w-full h-full hover:opacity-100 flex flex-col items-start justify-end transition-all ease-in-out duration-500 z-10">
