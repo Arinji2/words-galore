@@ -12,9 +12,9 @@ import Image from "next/image";
 import Link from "next/link";
 const VERSION = "15.0.2-canary.6";
 
-export default function Home() {
+export default function Hero() {
   return (
-    <div className="w-full h-fit py-10  min-h-[100svh]  flex flex-col items-center justify-center gap-6">
+    <div className="w-full h-fit   flex flex-col items-center justify-center gap-6">
       <H1>WORDS GALORE</H1>
       <P className="text-foreground/70 text-center">
         A website testing <span className="text-primary">NextJS 15 Canary</span>
@@ -30,7 +30,7 @@ export default function Home() {
         </Card>
       </Link>
 
-      <div className="w-[80%] h-fit grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-10">
+      <div className="w-full h-fit grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 mt-10">
         <Card className="flex flex-col gap-2 shrink-0">
           <CardHeader className="space-y-0 pb-0">
             <CardTitle className="text-sm font-normal">Fake Words</CardTitle>
