@@ -65,7 +65,7 @@ async function DevInfo({
         <TooltipProvider>
           <Tooltip>
             <TooltipContent>
-              <p className="pb-1">{info}</p>
+              <p className="">{info}</p>
             </TooltipContent>
             <TooltipTrigger>{children}</TooltipTrigger>
           </Tooltip>

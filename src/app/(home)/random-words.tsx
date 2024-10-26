@@ -37,7 +37,7 @@ export async function RandomWords({ isReal }: { isReal: boolean }) {
           <DevRevalidateIndicator
             cacheKey={`random-words-${isReal ? "real" : "fake"}`}
           />
-          <DevGithubURL url={GITHUB_URLS.random_words} />
+          <DevGithubURL url={GITHUB_URLS.homepage.random_words} />
         </div>
       </div>
 
@@ -95,7 +95,7 @@ async function WordCard({ isReal, id }: { isReal: boolean; id: string }) {
   const data = await getRandomWord({ id, isReal });
 
   return (
-    <Card className="w-full h-[100px]  rounded-sm min-w-[300px] gap-2 flex flex-col items-start justify-center">
+    <Card className="w-full h-[100px]  rounded-sm min-w-[300px] gap-2 flex flex-col items-start justify-start py-4">
       <CardHeader className="space-y-0 py-0">
         <CardTitle className="text-2xl font-bold line-clamp-1">
           {upperCaseTransform(data.word)}

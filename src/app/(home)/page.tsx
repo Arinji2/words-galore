@@ -1,5 +1,6 @@
 import Hero from "./hero";
 import { RandomWords } from "./random-words";
+import { WordsAnalysis } from "./words-analysis";
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
 
       <RandomWords isReal={true} />
       <RandomWords isReal={false} />
+      <WordsAnalysis />
     </div>
   );
 }

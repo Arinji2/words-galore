@@ -5,9 +5,11 @@ import { WordSchema } from "./validations/words-schema";
 export async function getRandomIDs({
   count,
   isReal,
+  level,
 }: {
   count: number;
   isReal: boolean;
+  level?: number;
 }) {
   const pb = new Pocketbase(process.env.POCKETBASE_URL);
 
@@ -15,6 +17,7 @@ export async function getRandomIDs({
     .collection(isReal ? "real_words" : "fake_words")
     .getList(1, count, {
       sort: "@random",
+      filter: `level=${level ?? 1}`,
       fields: "id",
     });
   if (!data || data.totalItems === 0 || !data.items) {
